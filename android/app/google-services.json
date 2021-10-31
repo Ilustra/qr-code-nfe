@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "416573536390",
+    "project_id": "app-mobile-ilustra",
+    "storage_bucket": "app-mobile-ilustra.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416573536390:android:b96367dcf785b2cf0b3907",
+        "android_client_info": {
+          "package_name": "com.appqrcode"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416573536390-5l65pemvoj5cefsuocumrvu588mu2dhg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm2Qq7LuoQkW0zTnHtijA1tulEEMIrI2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416573536390-5l65pemvoj5cefsuocumrvu588mu2dhg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-7017548991231781~3442083618"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:416573536390:android:dd0caed049e5bc440b3907",
+        "android_client_info": {
+          "package_name": "com.example.app_qrcode_login"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "416573536390-5l65pemvoj5cefsuocumrvu588mu2dhg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAm2Qq7LuoQkW0zTnHtijA1tulEEMIrI2c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "416573536390-5l65pemvoj5cefsuocumrvu588mu2dhg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

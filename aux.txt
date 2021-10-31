@@ -1,0 +1,3 @@
+/*
+* label e texts estão em login_messages
+*/
