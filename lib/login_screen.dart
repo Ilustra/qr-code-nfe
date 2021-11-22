@@ -1,7 +1,6 @@
 import 'package:app_qrcode_login/constants.dart';
 import 'package:app_qrcode_login/flutter_login.dart';
-import 'package:app_qrcode_login/screen/scan_screen.dart';
-import 'package:app_qrcode_login/src/models/login_data.dart';
+import 'package:app_qrcode_login/home.dart';
 import 'package:app_qrcode_login/users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
@@ -21,10 +20,12 @@ class LoginScreen extends StatelessWidget {
         email: data.name,
         password: data.password,
       );
+
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => QRViewExample()),
+        MaterialPageRoute(builder: (context) => Home()),
       );
+
       return null;
     } on FirebaseAuthException catch (e) {
       print(e.message);
