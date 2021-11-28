@@ -80,21 +80,16 @@ class LoginScreen extends StatelessWidget {
         ),
       ],*/
       userValidator: (value) {
-        if (!value!.contains('@') || !value.endsWith('.com')) {
+        if (!value!.contains('@') || !value.endsWith('.com'))
           return "Email must contain '@' and end with '.com'";
-        }
         return null;
       },
       displayNameValidator: (value) {
-        if (value!.isEmpty) {
-          return 'Name is empty';
-        }
+        if (value!.isEmpty) return 'Name is empty';
         return null;
       },
       passwordValidator: (value) {
-        if (value!.isEmpty) {
-          return 'Password is empty';
-        }
+        if (value!.isEmpty) return 'Password is empty';
         return null;
       },
       onLogin: (loginData) {

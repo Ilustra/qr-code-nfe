@@ -1,6 +1,6 @@
 class Produto {
   final String nome;
-  final int quantidade;
+  final double quantidade;
   final String UN;
   final double valor;
   final double total;
@@ -18,7 +18,7 @@ class Produto {
   factory Produto.fromJson(dynamic json) {
     return Produto(
       nome: json['nome'],
-      quantidade: json['quantidade'].toInt(),
+      quantidade: json['quantidade'].toDouble(),
       UN: json['UN'],
       valor: json['valor'].toDouble(),
       total: json['total'].toDouble(),
@@ -27,6 +27,10 @@ class Produto {
   }
   String getTotal() {
     return '' + (total).toString();
+  }
+
+  String getQuantidade() {
+    return UN + ' ' + quantidade.toString();
   }
 
   String getValor() {

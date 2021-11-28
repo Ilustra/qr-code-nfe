@@ -9,7 +9,6 @@ import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:http/http.dart' as http;
 
 class QRViewExample extends StatefulWidget {
-  static const routeName = '/scan';
   @override
   State<StatefulWidget> createState() => _QRViewExampleState();
 }
@@ -66,24 +65,6 @@ class _QRViewExampleState extends State<QRViewExample> {
       body: Column(
         children: <Widget>[
           Expanded(flex: 4, child: _buildQrView(context)),
-          Expanded(
-            flex: 1,
-            child: FittedBox(
-              fit: BoxFit.contain,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  ElevatedButton(
-                    onPressed: () {
-                      buscar(
-                          "http://www.fazenda.pr.gov.br/nfce/qrcode?p=41210177752293000945651220000366861197531088|2|1|1|AFCB2059B76F6311145CE06E256CFD4750B8FADC");
-                    },
-                    child: const Text('Buscar'),
-                  ),
-                ],
-              ),
-            ),
-          )
         ],
       ),
     );

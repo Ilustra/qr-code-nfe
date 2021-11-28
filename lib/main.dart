@@ -35,7 +35,6 @@ class MyApp extends StatelessWidget {
       routes: {
         LoginScreen.routeName: (context) => LoginScreen(),
         Home.routeName: (context) => Home(),
-        QRViewExample.routeName: (context) => QRViewExample(),
       },
     );
   }

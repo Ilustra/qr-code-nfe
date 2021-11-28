@@ -124,7 +124,7 @@ class DataTableWidget extends StatelessWidget {
                 ((element) => DataRow(
                       cells: <DataCell>[
                         DataCell(Text(element.nome)),
-                        DataCell(Text(element.quantidade.toString())),
+                        DataCell(Text(element.getQuantidade())),
                         DataCell(Text(element.getValor())),
                         DataCell(Text(element
                             .getTotal())), //Extracting from Map element the value

@@ -1,5 +1,7 @@
+import 'package:app_qrcode_login/dashboard_screen.dart';
+import 'package:app_qrcode_login/exemple_cahrts.dart';
 import 'package:app_qrcode_login/perfil.dart';
-import 'package:app_qrcode_login/register_nota.dart';
+import 'package:app_qrcode_login/nota_screen.dart';
 import 'package:app_qrcode_login/scan_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -35,8 +37,8 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
         title: const Text('Despensa'),
       ),
       body: Center(
-        child: Notas(
-          title: '',
+        child: DashboardScreen(
+          title: 'Home',
         ),
       ),
       drawer: Drawer(
@@ -64,22 +66,42 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     MaterialPageRoute(builder: (context) => PerfilScreen()),
                   );
                 }),
+            ListTile(
+                leading: Icon(Icons.receipt),
+                title: Text('Notas'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Notas(
+                              title: '',
+                            )),
+                  );
+                }),
+            ListTile(
+                leading: Icon(Icons.show_chart),
+                title: Text('Relatório'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => Notas(
+                              title: '',
+                            )),
+                  );
+                }),
+            ListTile(
+                leading: Icon(Icons.qr_code_scanner),
+                title: Text('Escanear nota'),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => QRViewExample()),
+                  );
+                }),
           ],
         ),
       ),
-      bottomNavigationBar: BottomAppBar(
-        shape: const CircularNotchedRectangle(),
-        child: Container(height: 50.0),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => QRViewExample()),
-        ),
-        tooltip: 'Increment Counter',
-        child: const Icon(Icons.add),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
