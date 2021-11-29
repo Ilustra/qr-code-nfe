@@ -45,9 +45,23 @@ class PerfilScreen extends StatelessWidget {
 class ItemCadastro extends StatelessWidget {
   final Cadastro cadastro;
   final TextEditingController textFirstname = TextEditingController();
+  final TextEditingController textLastname = TextEditingController();
+  final TextEditingController textPhone = TextEditingController();
+  final TextEditingController textDDD = TextEditingController();
+  final TextEditingController textCep = TextEditingController();
+  final TextEditingController textLocalidade = TextEditingController();
+  final TextEditingController textUf = TextEditingController();
+  final TextEditingController textBairro = TextEditingController();
 
   ItemCadastro({Key? key, required this.cadastro}) : super(key: key) {
     textFirstname.text = cadastro.firstName;
+    textLastname.text = cadastro.lastName;
+    textPhone.text = cadastro.phone;
+    textDDD.text = cadastro.ddd;
+    textCep.text = cadastro.cep;
+    textLocalidade.text = cadastro.localidade;
+    textUf.text = cadastro.uf;
+    textBairro.text = cadastro.bairro;
   }
 
   @override
@@ -59,18 +73,100 @@ class ItemCadastro extends StatelessWidget {
               child: ListView(
                 children: <Widget>[
                   Column(
-                    // ignore: prefer_const_literals_to_create_immutables
                     children: <Widget>[
                       Padding(
                         padding: EdgeInsets.all(16.0),
                         child: TextField(
                           controller: textFirstname,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             labelText: 'Nome',
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: TextField(
+                          controller: textLastname,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Segundo nome',
+                          ),
+                        ),
+                      ),
+                      Row(children: [
+                        Container(
+                          width: 150,
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: textDDD,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'DDD',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 200,
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: textPhone,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Telefone',
+                              ),
+                            ),
+                          ),
+                        )
+                      ]),
+                      Row(children: [
+                        Container(
+                          width: 150,
+                          child: Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: textUf,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Uf',
+                              ),
+                            ),
+                          ),
+                        ),
+                        Container(
+                          width: 200,
+                          child: Padding(
+                            padding: EdgeInsets.all(16.0),
+                            child: TextField(
+                              controller: textLocalidade,
+                              decoration: const InputDecoration(
+                                border: OutlineInputBorder(),
+                                labelText: 'Cidade',
+                              ),
+                            ),
+                          ),
+                        ),
+                      ]),
+                      Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: TextField(
+                          controller: textBairro,
+                          decoration: const InputDecoration(
+                            border: OutlineInputBorder(),
+                            labelText: 'Bairro',
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          child: const Text('Salvar'),
+                        ),
+                      )
                     ],
                   ),
                 ],

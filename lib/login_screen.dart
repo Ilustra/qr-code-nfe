@@ -28,7 +28,6 @@ class LoginScreen extends StatelessWidget {
 
       return null;
     } on FirebaseAuthException catch (e) {
-      print(e.message);
       return e.message;
     }
   }
@@ -107,10 +106,7 @@ class LoginScreen extends StatelessWidget {
         ));*/
       },
       onRecoverPassword: (name) {
-        print('Recover password info');
-        print('Name: $name');
         return _recoverPassword(name);
-        // Show new password dialog
       },
     );
   }

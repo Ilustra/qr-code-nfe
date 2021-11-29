@@ -2,6 +2,7 @@ import 'package:app_qrcode_login/dashboard_screen.dart';
 import 'package:app_qrcode_login/exemple_cahrts.dart';
 import 'package:app_qrcode_login/perfil.dart';
 import 'package:app_qrcode_login/nota_screen.dart';
+import 'package:app_qrcode_login/relatorio_screen.dart';
 import 'package:app_qrcode_login/scan_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -32,6 +33,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Despensa'),
@@ -47,7 +49,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).colorScheme.primary,
               ),
               child: Text(
                 'Menu',
@@ -84,10 +86,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                 onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => Notas(
-                              title: '',
-                            )),
+                    MaterialPageRoute(builder: (context) => RelatorioScren()),
                   );
                 }),
             ListTile(

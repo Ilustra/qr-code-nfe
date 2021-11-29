@@ -8,7 +8,6 @@ class Dashboard {
   final String cnpj;
   final String nome;
   final double total;
-  final int size;
   final charts.Color barColor;
   final Color color;
 
@@ -16,7 +15,6 @@ class Dashboard {
       {required this.cnpj,
       required this.nome,
       required this.total,
-      required this.size,
       required this.barColor,
       required this.color});
 
@@ -27,7 +25,6 @@ class Dashboard {
         total: json['total'].toDouble(),
         cnpj: json['cnpj'],
         color: colors,
-        size: json['total'] as int,
         barColor: charts.ColorUtil.fromDartColor(colors));
   }
   formatMoeda(double valor) {

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:app_qrcode_login/bussines/dashboard.dart';
 import 'package:app_qrcode_login/bussines/developer_chart.dart';
 import 'package:app_qrcode_login/exemple_cahrts.dart';
+import 'package:app_qrcode_login/src/providers/login_theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -25,14 +26,20 @@ List<Dashboard> parseDarsh(String responseBody) {
 
 class DashboardScreen extends StatefulWidget {
   static const routeName = '/home';
-  DashboardScreen({Key? key, required this.title}) : super(key: key);
+
+  DashboardScreen({
+    Key? key,
+    required this.title,
+  }) : super(key: key);
   final String title;
+
   @override
   _DashboardScreen createState() => _DashboardScreen();
 }
 
 class _DashboardScreen extends State<DashboardScreen> {
   var total = 0.0;
+
   formatMoeda(double valor) {
     final formatter = new NumberFormat("#,###.##");
     double value = valor;
@@ -173,28 +180,6 @@ class ItemList extends StatelessWidget {
               ),
             ),
           ),
-          /*child: Card(
-                //  margin: const EdgeInsets.all(5.0),
-                child: InkWell(
-                    onTap: () {},
-                    child: Padding(
-                      padding: EdgeInsets.all(16.0),
-                      child: Row(children: <Widget>[
-                        Row(
-                          mainAxisAlignmennt: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                                child: Text(
-                              items[index].getName(),
-                            )),
-                            Container(
-                                child: Text(
-                              items[index].getTotal(),
-                            )),
-                          ],
-                        ),
-                      ]),
-                    )))*/
         );
       },
     );

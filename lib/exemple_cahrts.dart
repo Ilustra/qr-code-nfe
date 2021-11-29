@@ -24,12 +24,9 @@ class DeveloperChart extends StatelessWidget {
 
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(9.0),
+        padding: const EdgeInsets.all(0.0),
         child: Column(
           children: <Widget>[
-            Text(
-              "distribuição de gastos",
-            ),
             Expanded(
               child: charts.PieChart(
                 series,
