@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:app_qrcode_login/bussines/chart_dashboard.dart';
 import 'package:app_qrcode_login/bussines/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;

@@ -19,6 +19,7 @@ class Nota {
   final double tributos;
   final double descontos;
   final double subTotal;
+  final String emissao;
   final List<Produto> produtos;
 
   Nota({
@@ -36,6 +37,7 @@ class Nota {
     required this.descontos,
     required this.subTotal,
     required this.produtos,
+    required this.emissao,
   });
 
   factory Nota.fromJson(Map<String, dynamic> json) {
@@ -56,6 +58,7 @@ class Nota {
         tributos: json['tributos'].toDouble(),
         descontos: json['descontos'].toDouble(),
         subTotal: json['subTotal'].toDouble(),
+        emissao: json['emissao'] as String,
         produtos: _tags);
   }
 

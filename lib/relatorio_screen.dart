@@ -1,10 +1,14 @@
 import 'dart:convert';
+import 'dart:math';
+import 'package:app_qrcode_login/bussines/chart_month.dart';
 import 'package:app_qrcode_login/bussines/notas.dart';
 import 'package:app_qrcode_login/detalhe_nota.dart';
+import 'package:app_qrcode_login/relatorio_chart.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+import 'package:charts_flutter/flutter.dart' as charts;
 
 class RelatorioScren extends StatefulWidget {
   @override
@@ -119,6 +123,55 @@ class _ItemNota extends State<ItemNota> {
       });
   }
 
+  formatMoeda(double valor) {
+    final formatter = new NumberFormat("#,###.##");
+    double value = valor;
+    return formatter.format(value);
+  }
+
+  String getTotal(List<Nota> nota_) {
+    var total = 0.0;
+    if (nota_.length > 0)
+      for (Nota item in nota_) {
+        total += item.total;
+      }
+    return '' + formatMoeda(total).toString();
+  }
+
+  List<ChartRelatorio> chartRelatorio(List<Nota> nota_) {
+    List<ChartRelatorio> list = [];
+
+    var date_ = DateTime.parse(nota_[0].emissao);
+
+    Color colors = Colors.primaries[Random().nextInt(Colors.primaries.length)];
+
+    late ChartRelatorio newObject = ChartRelatorio(
+        year: date_.year,
+        month: date_.month,
+        total: nota_[0].total,
+        barColor: charts.ColorUtil.fromDartColor(colors));
+
+    list.add(newObject);
+
+    for (Nota item in nota_) {
+      var i = 0;
+      var date_ = DateTime.parse(item.emissao);
+      if (list[0].month == date_.month) {
+        newObject.somaTotal(item.total);
+      } else {
+        late ChartRelatorio newObject = ChartRelatorio(
+            year: date_.year,
+            month: date_.month,
+            total: item.total,
+            barColor: charts.ColorUtil.fromDartColor(colors));
+        list.add(newObject);
+        i++;
+      }
+    }
+
+    return list;
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -147,6 +200,47 @@ class _ItemNota extends State<ItemNota> {
                     onPressed: _filtrarNotas,
                   ),
                 ],
+              ),
+              Container(
+                height: 400,
+                child: Card(
+                  elevation: 3,
+                  child: Padding(
+                    padding: EdgeInsets.all(4),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Expanded(
+                          child: RelatorioChart(
+                            data: chartRelatorio(_notas),
+                          ),
+                        ),
+                        Text(
+                          '\$ ' + getTotal(_notas),
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: const TextStyle(
+                              color: Colors.blueGrey,
+                              fontWeight: FontWeight.w900,
+                              fontStyle: FontStyle.normal,
+                              fontFamily: 'Open Sans',
+                              fontSize: 32),
+                        ),
+                        Text(
+                          'total',
+                          maxLines: 3,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                              color: Colors.blueGrey[500],
+                              fontWeight: FontWeight.w400,
+                              fontStyle: FontStyle.normal,
+                              fontFamily: 'Open Sans',
+                              fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               Expanded(
                   child: ListView.builder(
