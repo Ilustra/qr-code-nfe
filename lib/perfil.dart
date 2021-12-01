@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:app_qrcode_login/bussines/cadastro.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
@@ -9,7 +8,7 @@ class PerfilScreen extends StatelessWidget {
 
   Future<Cadastro> fetchCadastro(http.Client client) async {
     final response = await client.get(Uri.parse(
-        'http://192.168.1.15:3000/cadastro/6006e22185e1c7001e4766af'));
+        'http://192.168.1.15:3000/cadastro/6034f57118fb983f1d7efad0'));
     if (response.statusCode == 200) {
       return Cadastro.fromJson(jsonDecode(response.body));
     } else {
