@@ -1,5 +1,4 @@
 import 'package:app_qrcode_login/dashboard_screen.dart';
-import 'package:app_qrcode_login/exemple_cahrts.dart';
 import 'package:app_qrcode_login/perfil.dart';
 import 'package:app_qrcode_login/nota_screen.dart';
 import 'package:app_qrcode_login/relatorio_screen.dart';
@@ -38,7 +37,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
       appBar: AppBar(
         title: const Text('Despensa'),
       ),
-      body: Center(
+      body: Container(
         child: DashboardScreen(
           title: 'Home',
         ),
@@ -76,7 +75,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => Notas(
-                              title: '',
+                              title: 'Notas',
                             )),
                   );
                 }),

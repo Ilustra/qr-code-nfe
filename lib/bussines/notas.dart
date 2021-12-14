@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:app_qrcode_login/bussines/produto.dart';
 
 class Nota {

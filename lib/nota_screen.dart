@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 
 Future<List<Nota>> fetchPhotos(http.Client client) async {
   final response = await client.get(
-      Uri.parse('http://192.168.1.15:3000/notas/6006e22185e1c7001e4766af'));
+      Uri.parse('http://192.168.1.16:3000/notas/6006e22185e1c7001e4766af'));
 
   // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parseItem, response.body);
@@ -45,6 +45,9 @@ class _Notas extends State<Notas> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.title + ''),
+      ),
       body: FutureBuilder<List<Nota>>(
         future: fetchPhotos(http.Client()),
         builder: (context, snapshot) {

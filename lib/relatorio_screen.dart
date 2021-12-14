@@ -18,7 +18,7 @@ class RelatorioScren extends StatefulWidget {
 Future<List<Nota>> fecthNotas(
     http.Client client, String start, String end, String userId) async {
   final response = await client.post(
-      Uri.parse('http://192.168.1.15:3000/notas/month/'),
+      Uri.parse('http://192.168.1.16:3000/notas/month/'),
       body: {'userId': userId, 'start': start, 'end': end});
 
   if (response.statusCode == 200) {
@@ -102,6 +102,8 @@ class _ItemNota extends State<ItemNota> {
     });
   }
 
+  late AnimationController controller;
+  bool statusProgress = false;
   void _filtrarNotas() async {
     var _start = "" +
         startDate.month.toString() +
@@ -115,12 +117,32 @@ class _ItemNota extends State<ItemNota> {
         endDate.day.toString() +
         "-" +
         endDate.year.toString();
-    var response = await fecthNotas(
-        http.Client(), _start, _end, "6006e22185e1c7001e4766af");
-    if (response.length > 0)
-      setState(() {
-        _notas = response;
-      });
+    setState(() {
+      statusProgress = true;
+    });
+    await fecthNotas(http.Client(), _start, _end, "6006e22185e1c7001e4766af")
+        .then(
+          (value) => {
+            setState(() {
+              statusProgress = false;
+              _notas = value;
+            }),
+          },
+        )
+        .catchError((onError) => {
+              setState(() {
+                statusProgress = false;
+              }),
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                content: const Text('error: '),
+                action: SnackBarAction(
+                  label: 'Ok',
+                  onPressed: () {
+                    // Some code to undo the change.
+                  },
+                ),
+              ))
+            });
   }
 
   formatMoeda(double valor) {
@@ -174,141 +196,156 @@ class _ItemNota extends State<ItemNota> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-          padding: EdgeInsets.all(10),
+    if (statusProgress)
+      return Center(
           child: Column(
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Text(DateFormat("'De:' dd/MM/yyyy").format(startDate)),
-                  IconButton(
-                    icon: const Icon(Icons.event),
-                    tooltip: 'Buscar',
-                    onPressed: _selectStartDate,
+        children: <Widget>[CircularProgressIndicator(), Text('Aguarde...')],
+      ));
+    else
+      return SafeArea(
+        child: Padding(
+            padding: EdgeInsets.all(10),
+            child: Column(
+              children: <Widget>[
+                if (statusProgress)
+                  Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  Text(DateFormat("'até:' dd/MM/yyyy").format(endDate)),
-                  IconButton(
-                    icon: const Icon(Icons.event),
-                    tooltip: 'Buscar',
-                    onPressed: _selectEnddate,
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.search),
-                    tooltip: 'Buscar',
-                    onPressed: _filtrarNotas,
-                  ),
-                ],
-              ),
-              Container(
-                height: 400,
-                child: Card(
-                  elevation: 3,
-                  child: Padding(
-                    padding: EdgeInsets.all(4),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Expanded(
-                          child: RelatorioChart(
-                            data: chartRelatorio(_notas),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Text(DateFormat("'De:' dd/MM/yyyy").format(startDate)),
+                    IconButton(
+                      icon: const Icon(Icons.event),
+                      tooltip: 'Buscar',
+                      onPressed: _selectStartDate,
+                    ),
+                    Text(DateFormat("'até:' dd/MM/yyyy").format(endDate)),
+                    IconButton(
+                      icon: const Icon(Icons.event),
+                      tooltip: 'Buscar',
+                      onPressed: _selectEnddate,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.search),
+                      tooltip: 'Buscar',
+                      onPressed: _filtrarNotas,
+                    ),
+                  ],
+                ),
+                Container(
+                  height: 400,
+                  child: Card(
+                    elevation: 3,
+                    child: Padding(
+                      padding: EdgeInsets.all(4),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Expanded(
+                            child: RelatorioChart(
+                              data: chartRelatorio(_notas),
+                            ),
                           ),
-                        ),
-                        Text(
-                          '\$ ' + getTotal(_notas),
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: const TextStyle(
-                              color: Colors.blueGrey,
-                              fontWeight: FontWeight.w900,
-                              fontStyle: FontStyle.normal,
-                              fontFamily: 'Open Sans',
-                              fontSize: 32),
-                        ),
-                        Text(
-                          'total',
-                          maxLines: 3,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                              color: Colors.blueGrey[500],
-                              fontWeight: FontWeight.w400,
-                              fontStyle: FontStyle.normal,
-                              fontFamily: 'Open Sans',
-                              fontSize: 12),
-                        ),
-                      ],
+                          Text(
+                            '\$ ' + getTotal(_notas),
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                                color: Colors.blueGrey,
+                                fontWeight: FontWeight.w900,
+                                fontStyle: FontStyle.normal,
+                                fontFamily: 'Open Sans',
+                                fontSize: 32),
+                          ),
+                          Text(
+                            'total',
+                            maxLines: 3,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                                color: Colors.blueGrey[500],
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                fontFamily: 'Open Sans',
+                                fontSize: 12),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                  child: ListView.builder(
-                itemCount: _notas.length,
-                itemBuilder: (context, index) {
-                  return Center(
-                      child: Card(
-                          margin: const EdgeInsets.all(5.0),
-                          child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetalheNota(nota: _notas[index])),
-                                );
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.all(8.0),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Column(
-                                      children: <Widget>[
-                                        Container(
-                                          child: Text(
-                                            _notas[index]
-                                                    .getName()
-                                                    .substring(0, 20) +
-                                                '...',
-                                            style: DefaultTextStyle.of(context)
-                                                .style
-                                                .apply(fontSizeFactor: 1.3),
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: _notas.length,
+                  itemBuilder: (context, index) {
+                    return Center(
+                        child: Card(
+                            margin: const EdgeInsets.all(5.0),
+                            child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DetalheNota(nota: _notas[index])),
+                                  );
+                                },
+                                child: Padding(
+                                  padding: EdgeInsets.all(8.0),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: <Widget>[
+                                      Column(
+                                        children: <Widget>[
+                                          Container(
+                                            child: Text(
+                                              _notas[index]
+                                                      .getName()
+                                                      .substring(0, 20) +
+                                                  '...',
+                                              style:
+                                                  DefaultTextStyle.of(context)
+                                                      .style
+                                                      .apply(
+                                                          fontSizeFactor: 1.3),
+                                            ),
                                           ),
-                                        ),
-                                        Container(
-                                          child: Text(
-                                            DateFormat(
-                                                    "dd 'de' MMMM 'de' yyyy'")
-                                                .format(
-                                                    _notas[index].getDate()),
-                                            style: DefaultTextStyle.of(context)
-                                                .style
-                                                .apply(fontSizeFactor: 1.0),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.end,
-                                      children: <Widget>[
-                                        Text(
-                                          _notas[index].getTotal(),
-                                          style: const TextStyle(
-                                              fontSize: 20,
-                                              fontWeight: FontWeight.bold,
-                                              color: Colors.grey),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ))));
-                },
-              ))
-            ],
-          )),
-    );
+                                          Container(
+                                            child: Text(
+                                              DateFormat(
+                                                      "dd 'de' MMMM 'de' yyyy'")
+                                                  .format(
+                                                      _notas[index].getDate()),
+                                              style:
+                                                  DefaultTextStyle.of(context)
+                                                      .style
+                                                      .apply(
+                                                          fontSizeFactor: 1.0),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                      Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.end,
+                                        children: <Widget>[
+                                          Text(
+                                            _notas[index].getTotal(),
+                                            style: const TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.grey),
+                                          )
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ))));
+                  },
+                ))
+              ],
+            )),
+      );
   }
 }
