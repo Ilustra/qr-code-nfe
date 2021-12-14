@@ -104,7 +104,7 @@ class _ItemNota extends State<ItemNota> {
 
   late AnimationController controller;
   bool statusProgress = false;
-  void _filtrarNotas() async {
+  void _filtrarNotas(String _id) async {
     var _start = "" +
         startDate.month.toString() +
         "-" +
@@ -120,7 +120,7 @@ class _ItemNota extends State<ItemNota> {
     setState(() {
       statusProgress = true;
     });
-    await fecthNotas(http.Client(), _start, _end, "6006e22185e1c7001e4766af")
+    await fecthNotas(http.Client(), _start, _end, _id)
         .then(
           (value) => {
             setState(() {
@@ -196,19 +196,19 @@ class _ItemNota extends State<ItemNota> {
 
   @override
   Widget build(BuildContext context) {
-    if (statusProgress)
+    if (statusProgress) {
       return Center(
           child: Column(
         children: <Widget>[CircularProgressIndicator(), Text('Aguarde...')],
       ));
-    else
+    } else {
       return SafeArea(
         child: Padding(
             padding: EdgeInsets.all(10),
             child: Column(
               children: <Widget>[
                 if (statusProgress)
-                  Center(
+                  const Center(
                     child: CircularProgressIndicator(),
                   ),
                 Row(
@@ -229,7 +229,9 @@ class _ItemNota extends State<ItemNota> {
                     IconButton(
                       icon: const Icon(Icons.search),
                       tooltip: 'Buscar',
-                      onPressed: _filtrarNotas,
+                      onPressed: () {
+                        _filtrarNotas('6006e22185e1c7001e4766af');
+                      },
                     ),
                   ],
                 ),
@@ -347,5 +349,6 @@ class _ItemNota extends State<ItemNota> {
               ],
             )),
       );
+    }
   }
 }

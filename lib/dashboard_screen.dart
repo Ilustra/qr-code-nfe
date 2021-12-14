@@ -60,6 +60,7 @@ class _DashboardScreen extends State<DashboardScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.blue.shade700,
       body: FutureBuilder<List<Dashboard>>(
         future: fetchDash(http.Client()),
         builder: (context, snapshot) {
@@ -69,58 +70,63 @@ class _DashboardScreen extends State<DashboardScreen> {
             );
           } else if (snapshot.hasData) {
             return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: <Widget>[
-                      Container(
-                        height: 300,
-                        child: Card(
-                          margin: const EdgeInsets.all(8.0),
-                          elevation: 3,
-                          child: Padding(
-                            padding: EdgeInsets.all(10),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Expanded(
-                                  child: DeveloperChart(
-                                    data: snapshot.data!,
-                                  ),
-                                ),
-                                Text(
-                                  '\$ ' + getTotal(snapshot.data),
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.blueGrey,
-                                      fontWeight: FontWeight.w900,
-                                      fontStyle: FontStyle.normal,
-                                      fontFamily: 'Open Sans',
-                                      fontSize: 62),
-                                ),
-                                Text(
-                                  'valor gasto até o momento',
-                                  maxLines: 3,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: TextStyle(
-                                      color: Colors.blueGrey[500],
-                                      fontWeight: FontWeight.w400,
-                                      fontStyle: FontStyle.normal,
-                                      fontFamily: 'Open Sans',
-                                      fontSize: 12),
-                                ),
-                              ],
-                            ),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: <Widget>[
+                    Container(
+                      height: 200,
+                      color: Colors.blue.shade700,
+                      child: Card(
+                        color: Colors.blue,
+                        margin: const EdgeInsets.all(8.0),
+                        elevation: 4,
+                        child: Padding(
+                          padding: EdgeInsets.all(0),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'R\$ ' + getTotal(snapshot.data),
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w900,
+                                    fontStyle: FontStyle.normal,
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 62),
+                              ),
+                              Text(
+                                'valor gasto até o momento',
+                                maxLines: 3,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w400,
+                                    fontStyle: FontStyle.normal,
+                                    fontFamily: 'Open Sans',
+                                    fontSize: 12),
+                              ),
+                            ],
                           ),
                         ),
-                      )
-                    ],
+                      ),
+                    )
+                  ],
+                ),
+                Expanded(
+                  child: ItemList(items: snapshot.data!),
+                ),
+                Expanded(
+                  child: DeveloperChart(
+                    data: snapshot.data!,
                   ),
-                  ItemList(items: snapshot.data!)
-                ]);
+                )
+              ],
+            );
           } else {
             return const Center(
               child: CircularProgressIndicator(),
@@ -158,29 +164,47 @@ class ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
+    late List<Dashboard> lista = items;
+    return GridView.builder(
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,
+      ),
       itemCount: items.length,
-      shrinkWrap: true,
       itemBuilder: (context, index) {
-        return Center(
-          child: Card(
-            margin: EdgeInsets.all(4.0),
-            elevation: 2,
-            child: ListTile(
-              leading: Container(
-                margin: const EdgeInsets.all(10.0),
-                color: items[index].color,
-                width: 10,
-              ),
-              title: Text(
-                items[index].getName(),
-              ),
-              trailing: Text(
-                items[index].getTotal(),
-              ),
-            ),
-          ),
-        );
+        return Card(
+            color: Colors.blue.shade600,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  margin: const EdgeInsets.all(0.0),
+                  color: items[index].color,
+                  height: 5,
+                ),
+                Text(items[index].getName(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w900,
+                        fontStyle: FontStyle.normal,
+                        fontFamily: 'Open Sans',
+                        fontSize: 14)),
+                Center(
+                    child: Text(items[index].getTotal(),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w900,
+                            fontStyle: FontStyle.normal,
+                            fontFamily: 'Open Sans',
+                            fontSize: 22))),
+                Container(
+                  margin: const EdgeInsets.all(0.0),
+                  color: items[index].color,
+                  height: 0,
+                ),
+              ],
+            ));
       },
     );
   }

@@ -36,7 +36,7 @@ class Dashboard {
   }
 
   String getTotal() {
-    return '\$ ' + (formatMoeda(total).toString());
+    return 'R\$ ' + (formatMoeda(total).toString());
   }
 
   String getName() {
