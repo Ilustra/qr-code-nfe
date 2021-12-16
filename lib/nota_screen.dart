@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'dart:convert';
 import 'package:app_qrcode_login/bussines/notas.dart';
 
@@ -9,8 +11,8 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 Future<List<Nota>> fetchPhotos(http.Client client) async {
-  final response = await client.get(
-      Uri.parse('http://192.168.1.16:3000/notas/6006e22185e1c7001e4766af'));
+  final response = await client.get(Uri.parse(
+      'http://192.168.1.16:3000/notas/6006e22185e1c7001e4766af?orderby=createdAt&limit=10'));
 
   // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parseItem, response.body);
@@ -32,8 +34,11 @@ class Notas extends StatefulWidget {
 }
 
 class _Notas extends State<Notas> {
+  // ignore: unused_field
   bool _showFab = true;
+  // ignore: unused_field
   bool _showNotch = true;
+  // ignore: prefer_final_fields
   FloatingActionButtonLocation _fabLocation =
       FloatingActionButtonLocation.endDocked;
 
@@ -100,8 +105,7 @@ class ItemList extends StatelessWidget {
                             children: <Widget>[
                               Container(
                                 child: Text(
-                                  items[index].getName().substring(0, 20) +
-                                      '...',
+                                  items[index].getNameReducer(),
                                   style: DefaultTextStyle.of(context)
                                       .style
                                       .apply(fontSizeFactor: 1.3),

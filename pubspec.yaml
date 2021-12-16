@@ -50,6 +50,7 @@ dependencies:
     version: ^0.0.0
   charts_flutter: ^0.12.0
   random_color: ^1.0.5
+  infinite_scroll_pagination: ^3.1.0
 
 dev_dependencies:
   flutter_test:

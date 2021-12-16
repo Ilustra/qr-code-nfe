@@ -1,5 +1,8 @@
-import 'dart:convert';
+// ignore_for_file: prefer_const_constructors
 
+import 'dart:convert';
+import 'dart:convert';
+import 'package:intl/intl.dart';
 import 'package:app_qrcode_login/bussines/notas.dart';
 import 'package:app_qrcode_login/bussines/produto.dart';
 import 'package:app_qrcode_login/home.dart';
@@ -30,77 +33,100 @@ class DetalheNota extends StatelessWidget {
         title: Text(nota.getName()),
       ),
       body: SingleChildScrollView(
-        child: DataTableWidget(produto: nota.produtos),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Card(
+              child: Container(
+                width: 500,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: <Widget>[
+                      Text(nota.nome,
+                          style: const TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey)),
+                      Text('CNPJ: ' + nota.cnpj),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            DataTableWidget(produto: nota.produtos),
+            Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  children: <Widget>[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Subtotal: ',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                        Text(nota.getSubtotal(),
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text('Desconto: ',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                        Text(nota.getDesconto(),
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                      ],
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        // ignore: prefer_const_constructors
+                        Text('Total: ',
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                        Text(nota.getTotal(),
+                            style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey)),
+                      ],
+                    ),
+                    Text(
+                        'emissao: ' +
+                            DateFormat("dd 'de' MMMM 'de' yyyy'").format(
+                              nota.getDate(),
+                            ),
+                        style:
+                            const TextStyle(fontSize: 15, color: Colors.grey)),
+                    Text('Tributos: ' + nota.getTributos(),
+                        style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey))
+                  ],
+                ),
+              ),
+            )
+          ],
+        ),
       ),
     );
-  }
-}
-
-class SSS extends StatelessWidget {
-  const SSS({Key? key, required this.produto}) : super(key: key);
-
-  final Produto produto;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Card(
-            margin: const EdgeInsets.all(5.0),
-            child: InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            child: Text('${produto.nome}'),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[Text(produto.getTotal())],
-                      ),
-                    ],
-                  ),
-                ))));
-  }
-}
-
-class ItemList extends StatelessWidget {
-  const ItemList({Key? key, required this.produto}) : super(key: key);
-
-  final Produto produto;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-        child: Card(
-            margin: const EdgeInsets.all(5.0),
-            child: InkWell(
-                onTap: () {},
-                child: Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      Column(
-                        children: <Widget>[
-                          Container(
-                            child: Text('${produto.nome}'),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: <Widget>[Text(produto.getTotal())],
-                      ),
-                    ],
-                  ),
-                ))));
   }
 }
 

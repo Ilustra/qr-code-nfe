@@ -64,11 +64,28 @@ class Nota {
     return '' + nome;
   }
 
+  String getNameReducer() {
+    if (nome.length > 20) return '' + nome.substring(0, 20);
+    return '' + nome;
+  }
+
   String getTotal() {
     return 'R\$ ' + total.toString();
   }
 
+  String getDesconto() {
+    return 'R\$ ' + descontos.toString();
+  }
+
+  String getSubtotal() {
+    return 'R\$ ' + subTotal.toString();
+  }
+
+  String getTributos() {
+    return 'R\$ ' + tributos.toString();
+  }
+
   DateTime getDate() {
-    return DateTime.parse(createdAt);
+    return DateTime.parse(emissao);
   }
 }

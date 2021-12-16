@@ -17,7 +17,7 @@ class _QRViewExampleState extends State<QRViewExample> {
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-
+  late bool isCircleProgress = false;
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
   @override
@@ -26,14 +26,21 @@ class _QRViewExampleState extends State<QRViewExample> {
     if (Platform.isAndroid) {
       controller!.pauseCamera();
     }
+
     controller!.resumeCamera();
   }
 
-  buscar(String stringUrl) async {
+  buscar(String stringUrl, String id) async {
+    setState(() {
+      isCircleProgress = true;
+    });
     final response = await http.post(
-        Uri.parse("http://192.168.1.15:3000/notas/register/"),
-        body: {'url': stringUrl, 'userId': "1"});
+        Uri.parse("http://192.168.1.16:3000/notas/register/"),
+        body: {'url': stringUrl, 'userId': id});
     if (response.statusCode == 200) {
+      setState(() {
+        isCircleProgress = false;
+      });
       var data = jsonDecode(response.body);
 
       showDialog<String>(
@@ -56,15 +63,26 @@ class _QRViewExampleState extends State<QRViewExample> {
           ],
         ),
       );
-    }
+    } else
+      setState(() {
+        isCircleProgress = false;
+      });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Scan'),
+      ),
       body: Column(
         children: <Widget>[
-          Expanded(flex: 4, child: _buildQrView(context)),
+          if (isCircleProgress)
+            const Center(
+              child: CircularProgressIndicator(),
+            )
+          else
+            Expanded(flex: 4, child: _buildQrView(context)),
         ],
       ),
     );
@@ -98,7 +116,8 @@ class _QRViewExampleState extends State<QRViewExample> {
     controller.scannedDataStream.listen((scanData) {
       setState(() {
         result = scanData;
-        buscar('${result!.code}');
+
+        buscar('${result!.code}', "6006e22185e1c7001e4766af");
       });
     });
   }
