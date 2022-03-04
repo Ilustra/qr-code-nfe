@@ -4,41 +4,27 @@ import 'dart:convert';
 import 'package:app_qrcode_login/bussines/notas.dart';
 
 import 'package:app_qrcode_login/detalhe_nota.dart';
+import 'package:app_qrcode_login/service/NotasService.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:intl/intl.dart';
 
-Future<List<Nota>> fetchPhotos(http.Client client) async {
-  final response = await client.get(Uri.parse(
-      'http://192.168.1.16:3000/notas/6006e22185e1c7001e4766af?orderby=createdAt&limit=10'));
-
-  // Use the compute function to run parsePhotos in a separate isolate.
-  return compute(parseItem, response.body);
-}
-
-// A function that converts a response body into a List<Photo>.
-List<Nota> parseItem(String responseBody) {
-  final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
-
-  return parsed.map<Nota>((json) => Nota.fromJson(json)).toList();
-}
-
 class Notas extends StatefulWidget {
+ 
   static const routeName = '/home';
-  Notas({Key? key, required this.title}) : super(key: key);
+  const Notas({Key? key, required this.title}) : super(key: key);
   final String title;
+
   @override
   _Notas createState() => _Notas();
 }
 
 class _Notas extends State<Notas> {
-  // ignore: unused_field
+
   bool _showFab = true;
-  // ignore: unused_field
   bool _showNotch = true;
-  // ignore: prefer_final_fields
   FloatingActionButtonLocation _fabLocation =
       FloatingActionButtonLocation.endDocked;
 
@@ -47,6 +33,8 @@ class _Notas extends State<Notas> {
     return value.toString();
   }
 
+  late NotasService nota = new NotasService();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +42,7 @@ class _Notas extends State<Notas> {
         title: Text(widget.title + ''),
       ),
       body: FutureBuilder<List<Nota>>(
-        future: fetchPhotos(http.Client()),
+        future: nota.findAll(),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return Center(

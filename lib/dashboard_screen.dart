@@ -11,7 +11,7 @@ import 'package:charts_flutter/flutter.dart' as charts;
 
 Future<List<Dashboard>> fetchDash(http.Client client) async {
   final response = await client.get(Uri.parse(
-      'http://192.168.1.16:3000/notas/dashotas/6006e22185e1c7001e4766af'));
+      'http://10.52.92.173:3000/notas/6006e22185e1c7001e4766af'));
 
   // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parseDarsh, response.body);

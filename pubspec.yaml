@@ -51,6 +51,8 @@ dependencies:
   charts_flutter: ^0.12.0
   random_color: ^1.0.5
   infinite_scroll_pagination: ^3.1.0
+  json_annotation: ^4.4.0
+  http_interceptor: ^1.0.2
 
 dev_dependencies:
   flutter_test:
